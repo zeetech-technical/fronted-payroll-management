@@ -27,7 +27,7 @@ export const FieldPassword = ({
   const error = errors[name] as FieldError;
   const [showPassword, setShowPassword] = useState(visible);
   const baseClass = [
-    "w-full px-4 py-3 border rounded-xl",
+    "w-full px-4 py-3 border rounded-xl text-white placeholder:text-gray-400",
     "focus:outline-none focus:ring-2",
     error
       ? "border-red-500 focus:ring-red-500"
@@ -35,7 +35,7 @@ export const FieldPassword = ({
   ].join(" ");
   return (
     <div>
-      <label className="block text-gray-700 mb-2 font-medium">
+      <label className="block text-white mb-2 font-medium">
         {required ? <span className="text-red-500">*</span> : ""} {label}
       </label>
       <input
@@ -55,7 +55,7 @@ export const FieldPassword = ({
           checked={showPassword}
           onChange={(e) => setShowPassword(e.target.checked)}
         />
-        <span className="text-gray-600 text-sm">
+        <span className="text-white text-sm">
           {showPassword ? "Ocultar" : "Mostrar"} contraseña
         </span>
       </div>

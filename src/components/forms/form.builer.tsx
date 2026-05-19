@@ -30,7 +30,7 @@ export const FormBuiler = <T extends FieldValues>({
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-8">
         {fields.map((field) => {
           const Component = field.component;
           return <Component key={field.name} {...field} />;

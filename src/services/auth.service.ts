@@ -1,12 +1,20 @@
+import type { AxiosError } from "axios";
 import payrollApi from "../api/payroll.api";
+import { ToastHelper } from "../helpers";
+import type { IRquestFieldSignIn } from "../interfaces/fields";
 
 export class AuthService {
-  static async login(email: string, password: string) {
+  static async signIn(fields: IRquestFieldSignIn) {
     try {
-      const { data } = await payrollApi.post("/auth/sign-in", { email, password });
-      return data;
-    } catch (error: any) {
-      throw new Error(error.response.data.message);
+      const { data: resp } = await payrollApi.post<{
+        data: { "access-token": string };
+      }>("/auth/sign-in", fields);
+
+      return resp.data["access-token"];
+    } catch (error: AxiosError | any) {
+      let msg =
+        error.response.data.data.message || "Error al Intentar Iniciar Sesion";
+      ToastHelper({ message: msg, type: "error" });
     }
   }
 }

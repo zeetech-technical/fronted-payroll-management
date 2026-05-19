@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router";
 import { LoginPage, DashboardPage } from "../pages";
-import { authMiddleware } from "../middleware";
+import { authMiddleware, checkExistMiddleware } from "../middleware";
 
 export const router = createBrowserRouter([
   {
@@ -9,11 +9,12 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: LoginPage,
+        middleware: [checkExistMiddleware],
       },
       {
         path: "dashboard",
         Component: DashboardPage,
-        middleware: [authMiddleware]
+        middleware: [authMiddleware],
       },
     ],
   },

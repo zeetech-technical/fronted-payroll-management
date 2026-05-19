@@ -1,14 +1,27 @@
-import { redirect } from "react-router";
+import { redirect, replace } from "react-router";
+import { useAuthStore } from "../store";
 
-async function authMiddleware({ context }:any) {
-    console.log("context",context);
-    
-    // const request = context.request;
-    // const token = request.headers.get("Authorization");
-    // if (!token) {
-        throw redirect("/");
-    // }
- 
+export const authMiddleware = () => {
+  const { token } = useAuthStore.getState();
+  if (!token) {
+    throw redirect("/");
+  }
 }
 
-export default authMiddleware;
+export const checkExistMiddleware = () => {
+   const { token } = useAuthStore.getState();
+   
+  if (token) {
+    return redirect("/dashboard");
+  }
+  return null;
+};
+
+// Evita que usuarios anónimos entren al dashboard
+export const dashboardLoader = () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return redirect("/");
+  }
+  return null;
+};

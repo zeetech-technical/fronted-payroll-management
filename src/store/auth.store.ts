@@ -1,13 +1,18 @@
 import { create ,type StateCreator } from "zustand";
 import { devtools, persist } from "zustand/middleware";
+import type { IRquestFieldSignIn } from "../interfaces/fields";
+import { AuthService } from "../services";
+
+
 
 export interface AuthState {
   status: "authorized" | "unauthrized" | "pending";
   token?: string;
   user?: any;
-  loginUser: (email: string, password: string) => Promise<void>;
+  signIn: (fields:IRquestFieldSignIn) => Promise<void>;
   checkAuthStatus: () => Promise<void>;
   logoutUser: () => void;
+  meUser: () => Promise<void>;
 }
 
 export const storeApi: StateCreator<AuthState> = (set) => ({
@@ -15,13 +20,10 @@ export const storeApi: StateCreator<AuthState> = (set) => ({
   token: undefined,
   user: undefined,
 
-  loginUser: async (email: string, password: string) => {
-    console.log("email",email);
-    console.log("password",password);
-    
+  signIn: async (fields:IRquestFieldSignIn) => {
     try {
-    //   const { token, ...user } = await AuthService.login(email, password);
-    //   set({ status: "authorized", token, user });
+      const token = await AuthService.signIn(fields);
+      set({ status: "authorized", token });
     } catch (error) {
       set({ status: "unauthrized", token: undefined, user: undefined });
       throw new Error("unauthrized");
@@ -40,6 +42,14 @@ export const storeApi: StateCreator<AuthState> = (set) => ({
 
   logoutUser: () => {
     set({ status: "unauthrized", token: undefined, user: undefined });
+  },
+
+  meUser: async () => {
+    try {
+     
+    } catch (error) {
+     
+    }
   },
 });
 

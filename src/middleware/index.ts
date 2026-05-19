@@ -1,1 +1,5 @@
-export { default as authMiddleware } from "./auth.middleware";
+export {
+  authMiddleware,
+  checkExistMiddleware,
+  dashboardLoader,
+} from "./auth.middleware";

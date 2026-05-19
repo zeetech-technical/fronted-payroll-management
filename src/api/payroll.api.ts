@@ -8,7 +8,7 @@ const payrollApi = axios.create({
 
 //interceptor
 payrollApi.interceptors.request.use((config) => {
-  const { token } = useAuthStore.getState();
+  const { token } = useAuthStore.getState()
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
   }

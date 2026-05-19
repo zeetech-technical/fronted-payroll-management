@@ -1,6 +1,8 @@
 import { useForm, type FieldValues, type Path } from "react-hook-form";
 import { FieldPassword, FieldText } from "../../components/ui/field";
 import { FormBuiler } from "../../components/forms/form.builer";
+import { useAuthStore } from "../../store";
+import { useNavigate } from "react-router";
 
 type LoginForm = {
   email: string;
@@ -37,6 +39,9 @@ const fields: FieldConfig<LoginForm>[] = [
 ];
 
 export const LoginForm = () => {
+  const navigate = useNavigate();
+  const signIn = useAuthStore((state) => state.signIn);
+
   const methods = useForm<LoginForm>({
     defaultValues: {
       email: "",
@@ -45,8 +50,11 @@ export const LoginForm = () => {
     mode: "onChange",
   });
 
-  const onSubmit = (data: LoginForm) => {
-    console.log("FORM DATA:", data);
+  const onSubmit = async (data: LoginForm) => {
+    try {
+      await signIn(data);
+      navigate("/dashboard");
+    } catch (error) {}
   };
   return (
     <FormBuiler
