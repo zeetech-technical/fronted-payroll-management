@@ -16,6 +16,9 @@ export const storeApi: StateCreator<AuthState> = (set) => ({
   user: undefined,
 
   loginUser: async (email: string, password: string) => {
+    console.log("email",email);
+    console.log("password",password);
+    
     try {
     //   const { token, ...user } = await AuthService.login(email, password);
     //   set({ status: "authorized", token, user });

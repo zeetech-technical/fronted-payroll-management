@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: react_app_dev
+    ports:
+      - "5173:5173"
+    restart: unless-stopped
+    environment:
+      - VITE_BASE_URL=${VITE_BASE_URL}
+    volumes:
+      - .:/app/
+      - /app/node_modules
