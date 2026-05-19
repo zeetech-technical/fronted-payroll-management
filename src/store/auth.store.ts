@@ -1,5 +1,4 @@
-import type { StateCreator } from "zustand";
-import { create } from "zustand";
+import { create ,type StateCreator } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 export interface AuthState {
