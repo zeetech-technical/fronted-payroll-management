@@ -1,3 +1,3 @@
 
-export * from "./login.page";
-export * from "./dashboard.page";
+export * from "./login/login.page";
+export * from "./dashboard/dashboard.page";
