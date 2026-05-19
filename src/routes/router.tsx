@@ -1,6 +1,7 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import { LoginPage, DashboardPage } from "../pages";
 import { authMiddleware, checkExistMiddleware } from "../middleware";
+import { PrivateLayout } from "../components/layouts";
 
 export const router = createBrowserRouter([
   {
@@ -13,9 +14,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        Component: DashboardPage,
+        Component: PrivateLayout,
         middleware: [authMiddleware],
+        children: [
+          {
+            index: true,
+            Component: DashboardPage,
+          },
+        ],
       },
     ],
+  },
+  {
+    path: "*",
+    element: <Navigate to="/" />,
   },
 ]);
