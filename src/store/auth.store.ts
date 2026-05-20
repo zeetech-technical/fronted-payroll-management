@@ -13,7 +13,7 @@ export interface AuthState {
   meUser: () => Promise<void>;
 }
 
-export const storeApi: StateCreator<AuthState> = (set) => ({
+export const storeAuthApi: StateCreator<AuthState> = (set) => ({
   status: "pending",
   token: undefined,
   user: undefined,
@@ -55,7 +55,7 @@ export const storeApi: StateCreator<AuthState> = (set) => ({
 
 export const useAuthStore = create<AuthState>()(
   devtools(
-    persist(storeApi, {
+    persist(storeAuthApi, {
       name: "auth-storage",
     }),
   ),

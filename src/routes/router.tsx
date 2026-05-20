@@ -1,7 +1,16 @@
 import { createBrowserRouter, Navigate } from "react-router";
-import { LoginPage, DashboardPage } from "../pages";
 import { authMiddleware, checkExistMiddleware } from "../middleware";
 import { PrivateLayout } from "../components/layouts";
+import {
+  CatalogPage,
+  DashboardPage,
+  LoginPage,
+  PositionPage,
+  TypeCatalogPage,
+  UsersPage,
+} from "../pages";
+import { TabuladorPage } from "../pages/dashboard/tabulador/tabulador.page";
+import { useCatalogStore } from "../store";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +29,37 @@ export const router = createBrowserRouter([
           {
             index: true,
             Component: DashboardPage,
+          },
+          {
+            path: "catalog",
+            loader: async () => {
+              const { getTypeCatalogs, getCatalogs } =
+                useCatalogStore.getState();
+              await getTypeCatalogs();
+              await getCatalogs();
+            },
+            children: [
+              {
+                path: "",
+                Component: CatalogPage,
+              },
+              {
+                path: "type-catalog",
+                Component: TypeCatalogPage,
+              },
+            ],
+          },
+          {
+            path: "users",
+            Component: UsersPage,
+          },
+          {
+            path: "tabulador",
+            Component: TabuladorPage,
+          },
+          {
+            path: "positions",
+            Component: PositionPage,
           },
         ],
       },

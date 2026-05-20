@@ -13,26 +13,27 @@ export const PrivateAside = () => {
         <NavLink to="/dashboard" className={linkClass}>
           Home
         </NavLink>
-        
-        <NavLink to="/usuarios" className={linkClass}>
+        <div className="h-px bg-white/10"></div>
+
+        <NavLink to="/dashboard/users" className={linkClass}>
           Usuarios
         </NavLink>
 
-        <NavLink to="/tabulador" className={linkClass}>
+        <NavLink to="/dashboard/tabulador" className={linkClass}>
           Tabulador
         </NavLink>
 
-        <NavLink to="/catalogos" className={linkClass}>
+        <NavLink to="/dashboard/catalog" className={linkClass}>
           Catálogos
         </NavLink>
 
-        <NavLink to="/puestos" className={linkClass}>
+        <NavLink to="/dashboard/positions" className={linkClass}>
           Puestos
         </NavLink>
 
-        <NavLink to="/percepciones" className={linkClass}>
+        {/* <NavLink to="/dashboard/catalog/type-catalog" className={linkClass}>
           Percepciones
-        </NavLink>
+        </NavLink> */}
       </nav>
     </aside>
   );
