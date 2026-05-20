@@ -1,4 +1,4 @@
-import { redirect, replace } from "react-router";
+import { redirect } from "react-router";
 import { useAuthStore } from "../store";
 
 export const authMiddleware = () => {

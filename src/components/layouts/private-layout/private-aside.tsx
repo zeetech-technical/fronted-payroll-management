@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 
 export const PrivateAside = () => {
-  const linkClass = ({ isActive }) =>
+  const linkClass = ({ isActive }: { isActive: boolean }) =>
     `block px-4 py-2 rounded-lg transition ${
       isActive
         ? "bg-teal-600 text-white"
