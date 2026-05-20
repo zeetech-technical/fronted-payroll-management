@@ -17,4 +17,15 @@ export class AuthService {
       ToastHelper({ message: msg, type: "error" });
     }
   }
+
+  static async me(){
+    try {
+      const {data: resp} = await payrollApi.get("/auth/me")
+      return resp.data
+    } catch (error: AxiosError | any) {
+      let msg =
+        error.response.data.data.message || "Error al Intentar Obtener Datos";
+      ToastHelper({ message: msg, type: "error" });
+    }
+  }
 }

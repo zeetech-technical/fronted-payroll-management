@@ -2,8 +2,17 @@ import { PrivateHeader } from "./private-header";
 import { PrivateFooter } from "./private-footer";
 import { PrivateAside } from "./private-aside";
 import { Outlet } from "react-router";
+import { useAuthStore } from "../../../store";
+import { useEffect } from "react";
 
 export const PrivateLayout = () => {
+  const me = useAuthStore((state) => state.meUser);
+
+  useEffect(() => {
+    me();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col gap-6 p-6">
       <PrivateHeader />
