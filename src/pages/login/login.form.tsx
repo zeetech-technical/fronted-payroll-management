@@ -1,25 +1,17 @@
-import { useForm, type FieldValues, type Path } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { FieldPassword, FieldText } from "../../components/ui/field";
 import { FormBuiler } from "../../components/forms/form.builer";
 import { useAuthStore } from "../../store";
 import { useNavigate } from "react-router";
+import type { IFieldConfig } from "../../interfaces/fields";
 
 type LoginForm = {
   email: string;
   password: string;
 };
 
-type FieldConfig<T extends FieldValues> = {
-  name: Path<T>;
-  label: string;
-  placeholder?: string;
-  required?: boolean;
-  type?: string;
-  visible?: boolean;
-  component: React.ComponentType<any>;
-};
 
-const fields: FieldConfig<LoginForm>[] = [
+const fields: IFieldConfig<LoginForm>[] = [
   {
     name: "email",
     label: "Correo electrónico",
@@ -36,6 +28,18 @@ const fields: FieldConfig<LoginForm>[] = [
     visible: false,
     component: FieldPassword,
   },
+  //   {
+  //   name: "rol",
+  //   label: "roles",
+  //   placeholder: "********",
+  //   required: true,
+  //   visible: false,
+  //   options: [
+  //     { label: "Administrador", value: "admin" },
+  //     { label: "Usuario", value: "user" },
+  //   ],
+  //   component: FieldSelect,
+  // },
 ];
 
 export const LoginForm = () => {

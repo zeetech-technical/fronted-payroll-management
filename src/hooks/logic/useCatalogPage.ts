@@ -8,6 +8,9 @@ export const useCatalogPage = () => {
 
   const [openModal, setOpenModal] = useState(false);
   const [openModalType, setOpenModalType] = useState(false);
+  
+  const [isStatusEdit, setIsStatusEdit] = useState(false);
+
 
   const handleDeleteCatalog = (id: number) => {
     SwalHelper({
@@ -44,5 +47,7 @@ export const useCatalogPage = () => {
     setOpenModal,
     openModalType,
     setOpenModalType,
+    isStatusEdit,
+    setIsStatusEdit,
   };
 };

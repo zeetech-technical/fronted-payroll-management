@@ -1,13 +1,14 @@
 import { useFormContext, type FieldError } from "react-hook-form";
-import type { IFieldTextProps } from "../../../interfaces/fields";
+import type { IFieldSelectProps } from "../../../interfaces/fields";
 
-export const FieldText = ({
+export const FieldSelect = ({
   label,
   name,
-  placeholder,
+  placeholder = "Selecciona una opción",
+  options,
   required,
   darkMode = true,
-}: IFieldTextProps) => {
+}: IFieldSelectProps) => {
   const {
     register,
     formState: { errors },
@@ -29,17 +30,32 @@ export const FieldText = ({
   return (
     <div>
       <label className={`block mb-2 font-medium ${baseLabelClass}`}>
-        {required ? <span className="text-red-500">*</span> : ""} {label}
+        {required && <span className="text-red-500">*</span>} {label}
       </label>
-      <input
-        type="text"
-        placeholder={placeholder}
+
+      <select
         className={baseClass}
+        defaultValue=""
         {...register(name, {
           required: required ? `${label} es obligatorio` : false,
         })}
-      />
-      {error && <span className="text-red-500">{error.message}</span>}
+      >
+        <option value="" disabled className="text-black">
+          {placeholder}
+        </option>
+
+        {options.map((option) => (
+          <option
+            key={option.value}
+            value={option.value}
+            className="text-black"
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
+
+      {error && <span className="text-red-500 text-sm">{error.message}</span>}
     </div>
   );
 };

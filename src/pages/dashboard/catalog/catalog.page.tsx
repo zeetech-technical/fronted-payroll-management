@@ -8,6 +8,7 @@ import {
 import { DataTable } from "../../../components/table";
 import { Modal } from "../../../components/ui/modal";
 import { useCatalogPage } from "../../../hooks";
+import { CatalogoForm } from "./catalogo.form";
 
 export const CatalogPage = () => {
   const {
@@ -19,7 +20,19 @@ export const CatalogPage = () => {
     setOpenModal,
     openModalType,
     setOpenModalType,
+    isStatusEdit,
+    setIsStatusEdit,
   } = useCatalogPage();
+
+  const handleEdit = () => {
+    setIsStatusEdit(true);
+    setOpenModal(true);
+  };
+
+  const handleAdd = () => {
+    setIsStatusEdit(false);
+    setOpenModal(true);
+  };
 
   return (
     <div className="p-6 space-y-8">
@@ -33,7 +46,7 @@ export const CatalogPage = () => {
 
         <div className="flex gap-1">
           <button
-            onClick={() => setOpenModal(true)}
+            onClick={handleAdd}
             className="bg-black text-white p-2 rounded-lg hover:opacity-90 transition flex gap-1 flex-row"
           >
             <MdOutlineAddCircleOutline size={25} />
@@ -109,7 +122,10 @@ export const CatalogPage = () => {
               render: (catalog) => (
                 <>
                   <button className="border p-2 rounded-lg hover:bg-gray-100">
-                    <FaPencilAlt size={18} />
+                    <FaPencilAlt
+                      size={18}
+                      onClick={() => handleEdit()}
+                    />
                   </button>
 
                   {catalog.deletedAt ? (
@@ -135,52 +151,16 @@ export const CatalogPage = () => {
       </section>
 
       <Modal
-        title="Añadir Type Catalog"
+        title={isStatusEdit ? "Editar" : "Agregar"}
         active={openModal}
         setActive={setOpenModal}
       >
-        <div>
-          <form className="space-y-4">
-            <div>
-              <label className="text-sm text-gray-600">Nombre</label>
-
-              <input
-                type="text"
-                placeholder="Ej. Percepción"
-                className="w-full mt-1 border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-
-            <div>
-              <label className="text-sm text-gray-600">Factor</label>
-
-              <select className="w-full mt-1 border rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-black">
-                <option value="1">1</option>
-                <option value="-1">-1</option>
-              </select>
-            </div>
-
-            <div className="flex justify-end gap-3 pt-2">
-              <button
-                type="button"
-                onClick={() => setOpenModal(false)}
-                className="border px-4 py-2 rounded-lg hover:bg-gray-100"
-              >
-                Cancelar
-              </button>
-
-              <button
-                type="submit"
-                className="bg-black text-white px-4 py-2 rounded-lg hover:opacity-90"
-              >
-                Guardar
-              </button>
-            </div>
-          </form>
-        </div>
+        <CatalogoForm
+          isEdit={isStatusEdit}
+          accion={handleEdit}
+        />
       </Modal>
 
-      
       <Modal
         title="Tipos de Catalogo"
         active={openModalType}

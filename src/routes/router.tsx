@@ -10,7 +10,7 @@ import {
   UsersPage,
 } from "../pages";
 import { TabuladorPage } from "../pages/dashboard/tabulador/tabulador.page";
-import { useCatalogStore } from "../store";
+import { useCatalogStore, useUserStore } from "../store";
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +52,10 @@ export const router = createBrowserRouter([
           {
             path: "users",
             Component: UsersPage,
+            loader: async () => {
+              const { getUsers } = useUserStore.getState();
+              await getUsers();
+            },
           },
           {
             path: "tabulador",

@@ -30,6 +30,7 @@ export class CatalogService {
   static async addCatalog(catalog: any) {
     try {
       const { data: resp } = await payrollApi.post("/catalogs", catalog);
+      ToastHelper({ message: "Catálogo agregado correctamente", type: "success" });
       return resp.data;
     } catch (error: AxiosError | any) {
       let msg =

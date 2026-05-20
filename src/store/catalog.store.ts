@@ -7,7 +7,10 @@ export interface CatalogState {
   catalogs: any[];
   getTypeCatalogs: () => Promise<void>;
   getCatalogs: () => Promise<void>;
-  addCatalog: (catalog: any) => Promise<void>;
+  addCatalog: (catalog: {
+    name: string;
+    typeCatalogId: string;
+  }) => Promise<void>;
   deleteCatalog: (id: number) => Promise<void>;
   restoreCatalog: (id: number) => Promise<void>;
 }
@@ -35,7 +38,10 @@ export const storeCatalogApi: StateCreator<CatalogState> = (set) => ({
   },
   addCatalog: async (catalog) => {
     try {
-      const newCatalog = await CatalogService.addCatalog(catalog);
+      const newCatalog = await CatalogService.addCatalog({
+        name: catalog.name,
+        typeCatalogId: +catalog.typeCatalogId,
+      });
       set((state) => ({ catalogs: [...state.catalogs, newCatalog] }));
     } catch (error) {
       throw new Error("Error al agregar catalog");
