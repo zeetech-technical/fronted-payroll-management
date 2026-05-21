@@ -10,7 +10,12 @@ import {
   UsersPage,
 } from "../pages";
 import { TabuladorPage } from "../pages/dashboard/tabulador/tabulador.page";
-import { useCatalogStore, useUserStore } from "../store";
+import {
+  useCatalogStore,
+  usePositionStore,
+  useTabuladorStore,
+  useUserStore,
+} from "../store";
 
 export const router = createBrowserRouter([
   {
@@ -60,10 +65,20 @@ export const router = createBrowserRouter([
           {
             path: "tabulador",
             Component: TabuladorPage,
+            loader: async () => {
+              const { getCatalogs } = useCatalogStore.getState();
+              const { getTabuladores } = useTabuladorStore.getState();
+              await getCatalogs();
+              await getTabuladores();
+            },
           },
           {
             path: "positions",
             Component: PositionPage,
+            loader: async () => {
+              const { getPositions } = usePositionStore.getState();
+              await getPositions();
+            },
           },
         ],
       },

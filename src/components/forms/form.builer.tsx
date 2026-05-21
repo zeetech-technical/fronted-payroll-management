@@ -23,7 +23,6 @@ export const FormBuiler = <T extends FieldValues>({
   onSubmit,
   submitText = "Guardar",
 }: FormBuilderProps<T>) => {
-  
   const {
     formState: { isValid },
   } = methods;
@@ -36,7 +35,14 @@ export const FormBuiler = <T extends FieldValues>({
           return <Component key={field.name} {...field} />;
         })}
 
-        <Buttom title={submitText} onClick={() => {}} type="submit" disabled={!isValid} />
+        <div className="sticky bottom-0 bg-transparent">
+          <Buttom
+            title={submitText}
+            onClick={() => {}}
+            type="submit"
+            disabled={!isValid}
+          />
+        </div>
       </form>
     </FormProvider>
   );
