@@ -50,7 +50,7 @@ export const FieldPassword = ({
           checked={showPassword}
           onChange={(e) => setShowPassword(e.target.checked)}
         />
-        <span className="text-white text-sm">
+        <span className={darkMode ? "text-white text-sm" : "text-dark text-sm"}>
           {showPassword ? "Ocultar" : "Mostrar"} contraseña
         </span>
       </div>

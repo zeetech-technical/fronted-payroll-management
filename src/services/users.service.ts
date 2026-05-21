@@ -13,4 +13,25 @@ export class UserService {
             ToastHelper({ message: msg, type: "error" });
         }
     }
+    static async selectRoles() {
+        try {
+            const { data: resp } = await payrollApi.get("/roles");
+            return resp.data;
+        } catch (error: AxiosError | any) {
+            let msg =
+                error.response.data.data.message || "Error al Intentar Obtener los Roles";
+            ToastHelper({ message: msg, type: "error" });
+        }
+    }
+    static async createUser(data: any) {
+        try {
+            const { data: resp } = await payrollApi.post("/users", data);
+            ToastHelper({ message: "Usuario creado exitosamente", type: "success" });
+            return resp;
+        } catch (error: AxiosError | any) {
+            let msg =
+                error.response.data.data.message || "Error al Intentar Crear el Usuario";
+            ToastHelper({ message: msg, type: "error" });
+        }
+    }
 }

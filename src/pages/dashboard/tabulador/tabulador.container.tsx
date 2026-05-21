@@ -1,11 +1,15 @@
 import { useMemo, useState } from "react";
+import { Modal } from "../../../components/ui/modal";
+import { SelectPostionForm } from "./select-postion.form";
 
 type Props = {
   data: any[];
 };
 
 export default function TabuladorView({ data }: Props) {
-  const [localData, setLocalData] = useState(data);
+  const [localData, ] = useState(data);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedTab, setSelectedTab] = useState<number>(0);
 
   const configsByTab = useMemo(() => {
     const map: Record<number, any[]> = {};
@@ -17,9 +21,9 @@ export default function TabuladorView({ data }: Props) {
     return map;
   }, [localData]);
 
-  const handleDeleteTab = (tabId: number) => {
-    setLocalData((prev) => prev.filter((t) => t.id !== tabId));
-  };
+  // const handleDeleteTab = (tabId: number) => {
+  //   setLocalData((prev) => prev.filter((t) => t.id !== tabId));
+  // };
 
   //   const handleDeleteConfig = (tabId: number, configId: number) => {
   //     setLocalData((prev) =>
@@ -36,6 +40,11 @@ export default function TabuladorView({ data }: Props) {
   //     );
   //   };
 
+  const handleCloseModal = () => {
+    setSelectedTab(0);
+    setOpenModal(false);
+  };
+
   return (
     <div className="p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -51,6 +60,12 @@ export default function TabuladorView({ data }: Props) {
                 {configsByTab[tab.id]?.length ?? 0} conceptos
               </span>
             </div>
+
+            {tab.position && (
+              <div className="flex gap-2 justify-center p-3 border-t border-b flex-wrap ">
+                <p className="text-sm font-medium">P.A: {tab.position.name}</p>
+              </div>
+            )}
 
             <div className="space-y-2 flex-1">
               {configsByTab[tab.id]?.length > 0 ? (
@@ -90,22 +105,27 @@ export default function TabuladorView({ data }: Props) {
               )}
             </div>
 
-            <div className="flex gap-2 mt-4 pt-3 border-t">
-              <button
+            <div className="flex gap-2 justify-center mt-4 pt-3 border-t flex-wrap">
+              {/* <button
                 onClick={() => handleDeleteTab(tab.id)}
                 className="px-3 py-1 text-xs rounded bg-red-100 text-red-600 hover:bg-red-200"
               >
                 Eliminar
-              </button>
+              </button> */}
 
-              <button
-                onClick={() => handleDeleteTab(tab.id)}
-                className="px-3 py-1 text-xs rounded bg-red-100 text-red-600 hover:bg-red-200"
-              >
-                Asignar Puesto
-              </button>
+              {!tab.position && (
+                <button
+                  onClick={() => {
+                    setSelectedTab(tab.id);
+                    setOpenModal(true);
+                  }}
+                  className="px-3 py-1 text-xs rounded bg-teal-100 text-teal-600 hover:bg-teal-200"
+                >
+                  Asignar Puesto
+                </button>
+              )}
 
-              <button
+              {/* <button
                 onClick={() => console.log("editar", tab.id)}
                 className="px-3 py-1 text-xs rounded bg-blue-100 text-blue-600 hover:bg-blue-200"
               >
@@ -117,11 +137,18 @@ export default function TabuladorView({ data }: Props) {
                 className="px-3 py-1 text-xs rounded bg-green-100 text-green-600 hover:bg-green-200"
               >
                 Restaurar
-              </button>
+              </button> */}
             </div>
           </div>
         ))}
       </div>
+      <Modal active={openModal} setActive={setOpenModal} title="Asignar Puesto">
+        <SelectPostionForm
+          accion={handleCloseModal}
+          isEdit={false}
+          tabId={selectedTab}
+        />
+      </Modal>
     </div>
   );
 }

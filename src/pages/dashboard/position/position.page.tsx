@@ -1,4 +1,4 @@
-import { FaPencilAlt } from "react-icons/fa";
+// import { FaPencilAlt } from "react-icons/fa";
 import {
   MdDeleteForever,
   MdOutlineAddCircleOutline,
@@ -9,9 +9,12 @@ import { usePositionStore } from "../../../store";
 import { useState } from "react";
 import { Modal } from "../../../components/ui/modal";
 import { PositionForm } from "./position.form";
+import { Empty } from "../../../components/empty/empty";
 
 export const PositionPage = () => {
-  const { positions } = usePositionStore((state) => state);
+  const { positions, deletePosition, restorePosition } = usePositionStore(
+    (state) => state,
+  );
   const [open, setOpen] = useState(false);
 
   return (
@@ -35,65 +38,69 @@ export const PositionPage = () => {
         </div>
       </div>
       <section>
-        <DataTable
-          data={positions}
-          columns={[
-            {
-              header: "Nombre",
-              render: (position) => (
-                <span className="font-medium text-gray-800">
-                  {position.name}
-                </span>
-              ),
-            },
+        {positions.length === 0 ? (
+          <Empty title="No hay puestos disponibles" />
+        ) : (
+          <DataTable
+            data={positions}
+            columns={[
+              {
+                header: "Nombre",
+                render: (position) => (
+                  <span className="font-medium text-gray-800">
+                    {position.name}
+                  </span>
+                ),
+              },
 
-            {
-              header: "Estado",
-              render: (position) => (
-                <span
-                  className={`text-xs px-2 py-1 rounded-md ${
-                    position.deletedAt
-                      ? "bg-red-100 text-red-700"
-                      : "bg-green-100 text-green-700"
-                  }`}
-                >
-                  {position.deletedAt ? "Eliminado" : "Activo"}
-                </span>
-              ),
-            },
+              {
+                header: "Estado",
+                render: (position) => (
+                  <span
+                    className={`text-xs px-2 py-1 rounded-md ${
+                      position.deletedAt
+                        ? "bg-red-100 text-red-700"
+                        : "bg-green-100 text-green-700"
+                    }`}
+                  >
+                    {position.deletedAt ? "Eliminado" : "Activo"}
+                  </span>
+                ),
+              },
 
-            {
-              header: "Acciones",
-              className: "flex justify-end gap-2",
-              render: (position) => (
-                <>
-                  <button className="border p-2 rounded-lg hover:bg-gray-100">
+              {
+                header: "Acciones",
+                className: "flex justify-end gap-2",
+                render: (position) => (
+                  <>
+                    {/* <button className="border p-2 rounded-lg hover:bg-gray-100">
                     <FaPencilAlt
                       size={18}
                       // onClick={() => handleEdit()}
                     />
-                  </button>
+                  </button> */}
 
-                  {position.deletedAt ? (
-                    <button
-                      // onClick={() => handleRestoreCatalog(catalog.id)}
-                      className="bg-teal-500 text-white p-2 rounded-lg hover:bg-teal-600"
-                    >
-                      <MdRestore size={18} />
-                    </button>
-                  ) : (
-                    <button
-                      //onClick={() => handleDeleteCatalog(catalog.id)}
-                      className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600"
-                    >
-                      <MdDeleteForever size={18} />
-                    </button>
-                  )}
-                </>
-              ),
-            },
-          ]}
-        />
+                    {position.deletedAt ? (
+                      <button
+                        onClick={() => restorePosition(position.id)}
+                        className="bg-teal-500 text-white p-2 rounded-lg hover:bg-teal-600"
+                      >
+                        <MdRestore size={18} />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => deletePosition(position.id)}
+                        className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600"
+                      >
+                        <MdDeleteForever size={18} />
+                      </button>
+                    )}
+                  </>
+                ),
+              },
+            ]}
+          />
+        )}
       </section>
       <Modal active={open} setActive={setOpen} title="Agregar Puesto">
         <PositionForm accion={() => setOpen(false)} />

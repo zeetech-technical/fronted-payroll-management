@@ -68,8 +68,10 @@ export const router = createBrowserRouter([
             loader: async () => {
               const { getCatalogs } = useCatalogStore.getState();
               const { getTabuladores } = useTabuladorStore.getState();
+              const { getPositions } = usePositionStore.getState();
               await getCatalogs();
               await getTabuladores();
+              await getPositions();
             },
           },
           {

@@ -1,5 +1,5 @@
 import { CiViewList } from "react-icons/ci";
-import { FaPencilAlt } from "react-icons/fa";
+// import { FaPencilAlt } from "react-icons/fa";
 import {
   MdDeleteForever,
   MdOutlineAddCircleOutline,
@@ -9,6 +9,7 @@ import { DataTable } from "../../../components/table";
 import { Modal } from "../../../components/ui/modal";
 import { useCatalogPage } from "../../../hooks";
 import { CatalogoForm } from "./catalogo.form";
+import { Empty } from "../../../components/empty/empty";
 
 export const CatalogPage = () => {
   const {
@@ -63,11 +64,14 @@ export const CatalogPage = () => {
       </div>
 
       <section>
-        <DataTable
-          data={catalogs}
-          columns={[
-            {
-              header: "Nombre",
+        {catalogs.length === 0 ? (
+          <Empty title="No hay catálogos disponibles" />
+        ) : (
+          <DataTable
+            data={catalogs}
+            columns={[
+              {
+                header: "Nombre",
               render: (catalog) => (
                 <span className="font-medium text-gray-800">
                   {catalog.name}
@@ -121,12 +125,12 @@ export const CatalogPage = () => {
               className: "flex justify-end gap-2",
               render: (catalog) => (
                 <>
-                  <button className="border p-2 rounded-lg hover:bg-gray-100">
+                  {/* <button className="border p-2 rounded-lg hover:bg-gray-100">
                     <FaPencilAlt
                       size={18}
                       onClick={() => handleEdit()}
                     />
-                  </button>
+                  </button> */}
 
                   {catalog.deletedAt ? (
                     <button
@@ -148,6 +152,7 @@ export const CatalogPage = () => {
             },
           ]}
         />
+        )}
       </section>
 
       <Modal

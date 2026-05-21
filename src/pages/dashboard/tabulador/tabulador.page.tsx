@@ -4,6 +4,7 @@ import { Modal } from "../../../components/ui/modal";
 import { TabuladorForm } from "./tabulador.form";
 import TabuladorContainer from "./tabulador.container";
 import { useTabuladorStore } from "../../../store";
+import { Empty } from "../../../components/empty/empty";
 
 export const TabuladorPage = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -41,7 +42,11 @@ export const TabuladorPage = () => {
         </div>
       </div>
       <section>
-        <TabuladorContainer data={tabuladores} />
+        {tabuladores.length === 0 ? (
+          <Empty title="No hay tabuladores disponibles" />
+        ) : (
+          <TabuladorContainer data={tabuladores} />
+        )}
       </section>
 
       <Modal
