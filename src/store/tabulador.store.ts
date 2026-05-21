@@ -8,6 +8,7 @@ export interface TabuladorState {
   getTabuladores: () => Promise<void>;
   createTabuladorConfig: (data: any) => Promise<void>;
   getTabuladorAllStats: () => Promise<void>;
+  getTabuladorUserStats: () => Promise<void>;
 }
 
 export const storeTabuladorApi: StateCreator<TabuladorState> = (set) => ({
@@ -34,6 +35,16 @@ export const storeTabuladorApi: StateCreator<TabuladorState> = (set) => ({
   getTabuladorAllStats: async () => {
     try {
       const statsTabulador = await TabuladorService.getTabuladorAllStats();
+      set({ statsTabulador });
+    } catch (error) {
+      set({ statsTabulador: [] });
+      throw new Error("Error al obtener estadisticas del tabulador");
+    }
+  },
+
+  getTabuladorUserStats: async () => {
+    try {
+      const statsTabulador = await TabuladorService.getTabuladorUserStats();
       set({ statsTabulador });
     } catch (error) {
       set({ statsTabulador: [] });

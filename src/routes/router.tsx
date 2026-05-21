@@ -16,6 +16,7 @@ import {
   useTabuladorStore,
   useUserStore,
 } from "../store";
+import { permissionMiddleware } from "../middleware/permission.middleware";
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +38,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "catalog",
+            middleware: [permissionMiddleware("DASHBOARD:CATALOGS")],
             loader: async () => {
               const { getTypeCatalogs, getCatalogs } =
                 useCatalogStore.getState();
@@ -56,6 +58,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "users",
+            middleware: [permissionMiddleware("DASHBOARD:USERS")],
             Component: UsersPage,
             loader: async () => {
               const { getUsers } = useUserStore.getState();
@@ -64,6 +67,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "tabulador",
+            middleware: [permissionMiddleware("DASHBOARD:TABULADOR")],
             Component: TabuladorPage,
             loader: async () => {
               const { getCatalogs } = useCatalogStore.getState();
@@ -76,6 +80,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "positions",
+            middleware: [permissionMiddleware("DASHBOARD:POSITION")],
             Component: PositionPage,
             loader: async () => {
               const { getPositions } = usePositionStore.getState();

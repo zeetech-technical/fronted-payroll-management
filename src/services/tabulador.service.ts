@@ -34,4 +34,13 @@ export class TabuladorService {
       throw error;
     }
   }
+
+  static async getTabuladorUserStats() {
+    try {
+      const { data } = await payrollApi.get("/tabulador/user-stats");
+      return data.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
