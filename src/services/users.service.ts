@@ -34,4 +34,15 @@ export class UserService {
             ToastHelper({ message: msg, type: "error" });
         }
     }
+    static async assignPosition(data: any) {
+        try {
+            const { data: resp } = await payrollApi.post("/users/assign-position", data);
+            ToastHelper({ message: "Posición asignada exitosamente", type: "success" });
+            return resp.data;
+        } catch (error: AxiosError | any) {
+            let msg =
+                error.response.data.data.message || "Error al Intentar Asignar la Posición";
+            ToastHelper({ message: msg, type: "error" });
+        }
+    }
 }

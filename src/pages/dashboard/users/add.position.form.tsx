@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { usePositionStore } from "../../../store";
+import { usePositionStore, useUserStore } from "../../../store";
 import type { IFieldConfig } from "../../../interfaces/fields";
 import { FieldSelect } from "../../../components/ui/field";
 import { useForm } from "react-hook-form";
@@ -9,6 +9,9 @@ interface IAddPositionForm {
   positionId: any;
 }
 export const AddPositionForm = ({userSelected, accion}: {userSelected: any, accion: () => void}) => {
+  const { assignPosition } = useUserStore(
+    (state) => state,
+  );
   const { selectPositiosns, selectPositionUserAvailable } = usePositionStore(
     (state) => state,
   );
@@ -38,14 +41,11 @@ export const AddPositionForm = ({userSelected, accion}: {userSelected: any, acci
   });
 
   const onSubmit = async (data: IAddPositionForm) => {
-    console.log(data , userSelected);
-
     try {
-      // await createUser({
-      //   ...data,
-      //   roleId: +data.roleId,
-      //   positionId: +data.positionId,
-      // });
+      await assignPosition({
+        userId: userSelected,
+        positionId: +data.positionId,
+      });
       accion();
     } catch (error) {}
   };

@@ -8,6 +8,7 @@ export interface UserState {
     getUsers: () => Promise<void>
     selectRoles: () => Promise<void>
     createUser: (data: any) => Promise<void>;
+    assignPosition: (data: any) => Promise<void>;
 }
 
 export const storeUserApi: StateCreator<UserState> = (set) => ({
@@ -38,6 +39,14 @@ export const storeUserApi: StateCreator<UserState> = (set) => ({
             set((state) => ({ users: [...state.users, user] }));
         } catch (error) {
             throw new Error("Error al crear usuario");
+        }
+    },
+    assignPosition: async (data: any) => {
+        try {
+            const user = await UserService.assignPosition(data);
+            set((state) => ({ users: state.users.map((u) => u.id === user.id ? user : u) }));
+        } catch (error) {
+            throw new Error("Error al asignar puesto");
         }
     }
 });

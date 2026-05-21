@@ -96,17 +96,15 @@ export const UsersPage = () => {
                 className: "flex justify-end gap-2",
                 render: (user) => (
                   <>
-                    {!user.position && (
-                      <button
-                        onClick={() => {
-                          setOpenModalAssignPosition(true);
-                          setUserSelected(user.id);
-                        }}
-                        className="border p-2 rounded-lg hover:bg-gray-100"
-                      >
-                        <FaPencilAlt size={18} />
-                      </button>
-                    )}
+                    <button
+                      onClick={() => {
+                        setOpenModalAssignPosition(true);
+                        setUserSelected(user.id);
+                      }}
+                      className="border p-2 rounded-lg hover:bg-gray-100"
+                    >
+                      <FaPencilAlt size={18} />
+                    </button>
 
                     {user.deletedAt ? (
                       <button

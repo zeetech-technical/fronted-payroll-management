@@ -21,10 +21,10 @@ export const UsersPayroll = ({ data }: Props) => {
       usuario: item.position?.user?.name || "Sin usuario",
       puesto: item.position?.name || "Sin puesto",
 
-      sueldoBase: calc?.sueldoBase || 0,
-      deducciones: calc?.totalDeducciones || 0,
-      percepciones: calc?.totalPercepciones || 0,
-      neto: calc?.total || 0,
+      sueldoBase: Number(calc?.sueldoBase || 0).toFixed(2),
+      deducciones: Number(calc?.totalDeducciones || 0).toFixed(2),
+      percepciones: Number(calc?.totalPercepciones || 0).toFixed(2),
+      neto: Number(calc?.total || 0).toFixed(2),
     };
   });
   const baseContainer = data.length > 0 ? "w-full h-[800px] p-4" : "w-full p-4";

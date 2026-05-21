@@ -15,7 +15,6 @@ export const GeneralPayroll = ({ data }) => {
   const summary = data.reduce(
     (acc, item) => {
       const calc = item.calcs?.[0];
-      console.log(calc);
 
       acc.sueldoBase += calc?.sueldoBase || 0;
       acc.deducciones += calc?.totalDeducciones || 0;
@@ -35,10 +34,10 @@ export const GeneralPayroll = ({ data }) => {
   const chartData = [
     {
       name: "Nómina General",
-      sueldoBase: summary.sueldoBase,
-      deducciones: summary.deducciones,
-      percepciones: summary.percepciones,
-      neto: summary.neto,
+      sueldoBase: Number(summary.sueldoBase).toFixed(2),
+      deducciones: Number(summary.deducciones).toFixed(2),
+      percepciones: Number(summary.percepciones).toFixed(2),
+      neto: Number(summary.neto).toFixed(2),
     },
   ];
   const baseContainer = data.length > 0 ? "w-full h-[600px] p-4" : "w-full p-4";
@@ -52,7 +51,7 @@ export const GeneralPayroll = ({ data }) => {
           <p className="text-sm ">Sueldo Base</p>
 
           <p className="text-2xl font-bold">
-            ${summary.sueldoBase.toLocaleString()}
+            ${Number(summary.sueldoBase).toFixed(2)}
           </p>
         </div>
 
@@ -60,21 +59,21 @@ export const GeneralPayroll = ({ data }) => {
           <p className="text-sm ">Percepciones Totales</p>
 
           <p className="text-2xl font-bold">
-            ${summary.percepciones.toLocaleString()}
+            ${Number(summary.percepciones).toFixed(2)}
           </p>
         </div>
 
         <div className="bg-red-600 rounded-lg p-4 text-white">
           <p className="text-sm ">Deducciones Totales</p>
           <p className="text-2xl font-bold  ">
-            ${summary.deducciones.toLocaleString()}
+            ${Number(summary.deducciones).toFixed(2)}
           </p>
         </div>
 
         <div className="bg-emerald-900 rounded-lg p-4 text-white">
           <p className="text-sm ">Sueldo Total</p>
           <p className="text-2xl font-bold  ">
-            ${summary.neto.toLocaleString()}
+            ${Number(summary.neto).toFixed(2)}
           </p>
         </div>
       </div>

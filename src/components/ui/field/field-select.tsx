@@ -34,11 +34,14 @@ export const FieldSelect = ({
 
       <select
         className={baseClass}
-        defaultValue={options.length > 0 ? options[0].value : ""}
+        defaultValue={""}
         {...register(name, {
           required: required ? `${label} es obligatorio` : false,
         })}
       >
+        <option value="" selected className="text-black">
+            Seleccione una opción
+        </option>
         {options.length > 0 ? (
           options.map((option) => (
             <option
