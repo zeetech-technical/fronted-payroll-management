@@ -43,7 +43,7 @@ export class PositionService {
         message: "Puesto asignado exitosamente",
         type: "success",
       });
-      return resp.data;
+      return resp.data.data;
     } catch (error) {}
   }
 

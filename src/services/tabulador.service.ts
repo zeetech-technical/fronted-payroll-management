@@ -13,11 +13,23 @@ export class TabuladorService {
 
   static async createTabuladorConfig(data: any) {
     try {
-      await payrollApi.post("/tabulador/config", { concepts: data });
+      const resp = await payrollApi.post("/tabulador/config", {
+        concepts: data,
+      });
       ToastHelper({
         message: "Tabulador creado exitosamente",
         type: "success",
       });
+      return resp.data.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getTabuladorAllStats() {
+    try {
+      const { data } = await payrollApi.get("/tabulador/stats");
+      return data.data;
     } catch (error) {
       throw error;
     }

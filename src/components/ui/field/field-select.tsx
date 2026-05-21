@@ -4,7 +4,6 @@ import type { IFieldSelectProps } from "../../../interfaces/fields";
 export const FieldSelect = ({
   label,
   name,
-  placeholder = "Selecciona una opción",
   options,
   required,
   darkMode = true,
@@ -35,24 +34,26 @@ export const FieldSelect = ({
 
       <select
         className={baseClass}
-        defaultValue=""
+        defaultValue={options.length > 0 ? options[0].value : ""}
         {...register(name, {
           required: required ? `${label} es obligatorio` : false,
         })}
       >
-        <option value="" disabled className="text-black">
-          {placeholder}
-        </option>
-
-        {options.map((option) => (
-          <option
-            key={option.value}
-            value={option.value}
-            className="text-black"
-          >
-            {option.label}
+        {options.length > 0 ? (
+          options.map((option) => (
+            <option
+              key={option.value}
+              value={option.value}
+              className="text-black"
+            >
+              {option.label}
+            </option>
+          ))
+        ) : (
+          <option value="" disabled className="text-black">
+            Sin opciones disponibles
           </option>
-        ))}
+        )}
       </select>
 
       {error && <span className="text-red-500 text-sm">{error.message}</span>}

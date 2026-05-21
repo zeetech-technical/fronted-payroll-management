@@ -5,10 +5,12 @@ import {
 } from "react-icons/md";
 import { useUserPage } from "../../../hooks";
 import { DataTable } from "../../../components/table";
-// import { FaPencilAlt } from "react-icons/fa";
+import { FaPencilAlt } from "react-icons/fa";
 import { Modal } from "../../../components/ui/modal";
 import { Empty } from "../../../components/empty/empty";
 import { UsersForm } from "./users.form";
+import { useState } from "react";
+import { AddPositionForm } from "./add.position.form";
 
 export const UsersPage = () => {
   const {
@@ -18,6 +20,10 @@ export const UsersPage = () => {
     openModalForm,
     setOpenModalForm,
   } = useUserPage();
+
+  const [userSelected, setUserSelected] = useState<any>();
+  const [openModalAssignPosition, setOpenModalAssignPosition] = useState(false);
+
   return (
     <div className="p-6 space-y-8">
       <div className="flex items-center justify-between">
@@ -63,6 +69,14 @@ export const UsersPage = () => {
                 ),
               },
               {
+                header: "Puesto",
+                render: (user) => (
+                  <span className="font-medium text-gray-800">
+                    {user.position?.name || "Sin asignar"}
+                  </span>
+                ),
+              },
+              {
                 header: "Estado",
                 render: (user) => (
                   <span
@@ -82,9 +96,17 @@ export const UsersPage = () => {
                 className: "flex justify-end gap-2",
                 render: (user) => (
                   <>
-                    {/* <button className="border p-2 rounded-lg hover:bg-gray-100">
-                      <FaPencilAlt size={18} />
-                    </button> */}
+                    {!user.position && (
+                      <button
+                        onClick={() => {
+                          setOpenModalAssignPosition(true);
+                          setUserSelected(user.id);
+                        }}
+                        className="border p-2 rounded-lg hover:bg-gray-100"
+                      >
+                        <FaPencilAlt size={18} />
+                      </button>
+                    )}
 
                     {user.deletedAt ? (
                       <button
@@ -114,6 +136,17 @@ export const UsersPage = () => {
         setActive={() => setOpenModalForm(false)}
       >
         <UsersForm accion={() => setOpenModalForm(false)} />
+      </Modal>
+
+      <Modal
+        title="Asignar Puesto"
+        active={openModalAssignPosition}
+        setActive={() => setOpenModalAssignPosition(false)}
+      >
+        <AddPositionForm
+          userSelected={userSelected}
+          accion={() => setOpenModalAssignPosition(false)}
+        />
       </Modal>
     </div>
   );

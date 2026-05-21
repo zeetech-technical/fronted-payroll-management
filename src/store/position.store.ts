@@ -1,6 +1,7 @@
 import { create, type StateCreator } from "zustand";
 import { devtools } from "zustand/middleware";
 import { PositionService } from "../services";
+import { useTabuladorStore } from "./tabulador.store";
 
 export interface PositionsState {
   positions: any[];
@@ -75,9 +76,16 @@ export const storePositionApi: StateCreator<PositionsState> = (set) => ({
   },
   assignToTab: async (data: any) => {
     try {
-     const resp:any = await PositionService.assignToTab(data);
-     console.log(resp);
-     
+      const resp: any = await PositionService.assignToTab(data);   
+      let tabuladores = useTabuladorStore.getState().tabuladores
+      let newTabuladores = tabuladores.map((tabulador: any) => {
+        if (tabulador.id === resp.id) {
+          return resp
+        }
+        return tabulador
+      })
+      
+      useTabuladorStore.setState({ tabuladores: newTabuladores });
     } catch (error) {
       throw new Error("Error al asignar puesto a tabulador");
     }

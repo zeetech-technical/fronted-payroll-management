@@ -4,12 +4,15 @@ import { TabuladorService } from "../services";
 
 export interface TabuladorState {
   tabuladores: any[];
+  statsTabulador: any[];
   getTabuladores: () => Promise<void>;
   createTabuladorConfig: (data: any) => Promise<void>;
+  getTabuladorAllStats: () => Promise<void>;
 }
 
 export const storeTabuladorApi: StateCreator<TabuladorState> = (set) => ({
   tabuladores: [],
+  statsTabulador: [],
   getTabuladores: async () => {
     try {
       const tabuladores = await TabuladorService.getAllTabulador();
@@ -21,13 +24,22 @@ export const storeTabuladorApi: StateCreator<TabuladorState> = (set) => ({
   },
   createTabuladorConfig: async (data: any) => {
     try {
-      await TabuladorService.createTabuladorConfig(data);
-
-      // set((state) => ({ tabuladores: [...state.tabuladores, newTabuladorConfig] }));
+      const tabuladorCompleto = await TabuladorService.createTabuladorConfig(data);
+      set((state) => ({tabuladores: [...state.tabuladores, tabuladorCompleto]}));
     } catch (error) {
       throw new Error("Error al agregar tabulador");
     }
   },
+
+  getTabuladorAllStats: async () => {
+    try {
+      const statsTabulador = await TabuladorService.getTabuladorAllStats();
+      set({ statsTabulador });
+    } catch (error) {
+      set({ statsTabulador: [] });
+      throw new Error("Error al obtener estadisticas del tabulador");
+    }
+  }
 });
 
 export const useTabuladorStore = create<TabuladorState>()(
